@@ -1,4 +1,5 @@
-﻿using System;
+﻿using COSIG.Processing.Setup;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,10 @@ namespace COSIG.Processing
 {
     public class ProcessingGraph
     {
-        internal List<Edge> Edges { get; set; } = new List<Edge>();
-        internal List<Node> Nodes { get; set; } = new List<Node>();
+        internal List<Edge> _edges = new List<Edge>();
+        internal List<Node> _nodes = new List<Node>();
+
+        private SetupBase Setup = new DefaultSetup();
 
         /// <summary>
         /// Adds a node to the graph
@@ -20,15 +23,10 @@ namespace COSIG.Processing
         {
             if(node.ID == "")
             {
-                node.ID = node.GetType().ToString().Replace(" ", "_").ToLower() + "_" + Nodes.Count().ToString();
+                node.ID = node.GetType().ToString().Replace(" ", "_").ToLower() + "_" + _nodes.Count().ToString();
             }
 
-            if(node.OutputFile == "")
-            {
-                node.OutputFile = node.ID + ".out.json";
-            }
-
-            Nodes.Add(node);
+            _nodes.Add(node);
             return node.ID;
         }
 
@@ -44,18 +42,16 @@ namespace COSIG.Processing
             var fromNode = GetNode(edge.FromID);
             var toNode = GetNode(edge.ToID);
 
-            //Check whether both Nodes are in Graph
+            //Check whether both _nodes are in Graph
             if (fromNode == null) throw new KeyNotFoundException("Node " + edge.FromID + " was not found! (Edge.FromID)");
             if (toNode == null) throw new KeyNotFoundException("Node " + edge.ToID + " was not found! (Edge.ToID)");
 
             //Check whether output and input are the same or not
             if (fromNode.OutputType != toNode.InputType) throw new TypeLoadException("The types of the nodes are not compatible\nOutput Type: " + fromNode.OutputType.ToString() + "\nInput Type: " + toNode.OutputType.ToString());
 
-            //The output File of the from-Node must be the input file of the to-Node
-            Nodes[Nodes.IndexOf(toNode)].InputFile = Nodes[Nodes.IndexOf(fromNode)].OutputFile;
 
 
-            Edges.Add(edge);
+            _edges.Add(edge);
 
         }
 
@@ -66,7 +62,7 @@ namespace COSIG.Processing
         /// <returns>The Node with the ID</returns>
         private Node GetNode(string ID)
         {
-            return Nodes.First(n => n.ID == ID);
+            return _nodes.First(n => n.ID == ID);
         }
 
         /// <summary>
@@ -82,6 +78,8 @@ namespace COSIG.Processing
 
         public void Run()
         {
+            Setup.Setup(ref _nodes, ref _edges);
+
             List<Node> CurrentNodes = new List<Node>();
             CurrentNodes = FindEntryNodes();
 
@@ -99,28 +97,28 @@ namespace COSIG.Processing
         }
 
         /// <summary>
-        /// Finds all Nodes where no edges are pointing to
+        /// Finds all _nodes where no edges are pointing to
         /// </summary>
-        /// <returns>List of Nodes without incoming edges</returns>
+        /// <returns>List of _nodes without incoming edges</returns>
         private List<Node> FindEntryNodes()
         {
             Dictionary<string, int> EntryCounter = new Dictionary<string, int>();
 
-            //Register all Nodes
-            foreach(var n in Nodes)
+            //Register all _nodes
+            foreach(var n in _nodes)
             {
                 EntryCounter.Add(n.ID, 0);
             }
 
             //Count ToIDs
-            foreach(var e in Edges)
+            foreach(var e in _edges)
             {
                 //When adding edges the IDs are already checked
                 //The ID exists guaranteed
                 EntryCounter[e.ToID]++;
             }
 
-            //Get all IDs where there were no Entry Edges
+            //Get all IDs where there were no Entry _edges
             var ids = EntryCounter.Keys.Where(k => EntryCounter[k] == 0).ToList();
 
             //Find all nodes to the IDs
@@ -145,7 +143,7 @@ namespace COSIG.Processing
         private List<Node> GetAllChildrenNodes(Node node)
         {
             List<Node> children = new List<Node>();
-            foreach(var e in Edges)
+            foreach(var e in _edges)
             {
                 if(e.FromID == node.ID)
                 {
