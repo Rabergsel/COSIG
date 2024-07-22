@@ -23,7 +23,7 @@ namespace COSIG.Nodes.WWW
 
         public override void Save()
         {
-            File.WriteAllText(OutputFile, JsonSerializer.Serialize(CleanStrings));
+            File.WriteAllText(OutputFile, JsonSerializer.Serialize(CleanStrings, new JsonSerializerOptions() { WriteIndented = true}));
         }
 
 

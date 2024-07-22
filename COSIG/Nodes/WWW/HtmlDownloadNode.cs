@@ -46,7 +46,7 @@ namespace COSIG.Nodes
 
         public override void Save()
         {
-            File.WriteAllText(OutputFile, JsonSerializer.Serialize(Pages));
+            File.WriteAllText(OutputFile, JsonSerializer.Serialize(Pages, new JsonSerializerOptions() { WriteIndented = true }));
         }
 
 

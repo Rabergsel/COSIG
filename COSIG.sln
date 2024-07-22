@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COSIG", "COSIG\COSIG.csproj", "{21B7A3B2-EE35-4415-92CF-246B17AF1FF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COSIG", "COSIG\COSIG.csproj", "{21B7A3B2-EE35-4415-92CF-246B17AF1FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COSIGTest", "COSIGTest\COSIGTest.csproj", "{2D267388-5B2A-412F-9653-0F198F5B330A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COSIGTest", "COSIGTest\COSIGTest.csproj", "{2D267388-5B2A-412F-9653-0F198F5B330A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
