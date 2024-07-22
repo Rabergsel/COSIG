@@ -80,5 +80,13 @@
             this.OutputFile = OutputFile;
         }
 
+        internal Node(string inputFile, string outputFile, Type inputType, Type outputType, string iD, string name, string description) : this(inputFile, outputFile)
+        {
+            InputType = inputType;
+            OutputType = outputType;
+            ID = iD;
+            Name = name;
+            Description = description;
+        }
     }
 }

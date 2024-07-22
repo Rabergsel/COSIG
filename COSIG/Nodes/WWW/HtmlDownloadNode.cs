@@ -13,14 +13,8 @@ namespace COSIG.Nodes
 {
     public class HtmlDownloadNode : Node
     {
-        public HtmlDownloadNode() 
+        public HtmlDownloadNode(string InputFile, string OutputFile) : base(InputFile, OutputFile, typeof(string[]), typeof(string[]), "", "HtmlDownloader", "Download HTML from URL")
         {
-            InputType = typeof(string[]);
-            OutputType = typeof(string[]);
-
-            Name = "Html Downloader";
-            Description = "This node downloads the HTML of all the URLs provided in the input file";
-
         }
 
         public List<string> URLs = new List<string>();
