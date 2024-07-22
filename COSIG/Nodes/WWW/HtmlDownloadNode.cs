@@ -23,18 +23,33 @@ namespace COSIG.Nodes
 
         public override void Load()
         {
-            URLs = JsonSerializer.Deserialize<List<string>>(File.ReadAllText(InputFile));
+            URLs.Clear();
+            Pages.Clear();
+            foreach(var file in ExistingInputFiles)
+            {
+                URLs.AddRange(JsonSerializer.Deserialize<List<string>>(File.ReadAllText(file)));
+            }
+            
         }
 
         public override void Work()
         {
             foreach(var  url in URLs)
             {
+                if (url == null) continue;
                 using (WebClient client = new WebClient())
                 {
-                    string htmlCode = client.DownloadString(url);
-                    Pages.Add(htmlCode);
-                    ReportProgress();
+                    try
+                    {
+                        string htmlCode = client.DownloadString(url);
+                        Pages.Add(htmlCode);
+                    }
+                    catch
+                    {
+                        Pages.Add("");
+                    }
+                        ReportProgress();
+                   
                 }
             }
         }
@@ -44,9 +59,12 @@ namespace COSIG.Nodes
             Console.WriteLine("Page " + Pages.Count + "/" + URLs.Count + " downloaded");
         }
 
-        public override void Save()
+        public override void Save(string FilePath)
         {
-            File.WriteAllText(OutputFile, JsonSerializer.Serialize(Pages, new JsonSerializerOptions() { WriteIndented = true }));
+
+                File.WriteAllText(FilePath, JsonSerializer.Serialize(Pages, new JsonSerializerOptions() { WriteIndented = true }));
+            
+           
         }
 
 

@@ -9,39 +9,45 @@ namespace COSIG.Processing.Setup
 {
     public class DefaultSetup : SetupBase
     {
-
+        public string DirectoryPath = "./wf/";
         public override void Setup(ref List<Node> Nodes, ref List<Edge> Edges)
         {
-            ChangeOutputFile(ref Nodes);
-            InOutCoheerence(ref Nodes, ref Edges);
+            CheckForDirectory();
+            SetUpFiles(ref Nodes, ref Edges);
         }
 
-
-        private void ChangeOutputFile(ref List<Node> Nodes)
+        private void CheckForDirectory()
         {
-            foreach(var node in Nodes)
+            if(!Directory.Exists(DirectoryPath)) { Directory.CreateDirectory(DirectoryPath); }
+            if (!Directory.Exists(DirectoryPath + "out/")) { Directory.CreateDirectory(DirectoryPath + "out/"); }
+        }
+
+        private void SetUpFiles(ref List<Node> Nodes, ref List<Edge> Edges)
+        {
+
+            foreach(var Node in Nodes)
             {
-                if (node.OutputFile == "")
+                if(Node.OutputFiles.Count == 0)
                 {
-                    node.OutputFile = node.ID + ".out.json";
+                    Node.OutputFiles.Add(DirectoryPath + "out/" + Node.ID + ".{RUN_INDEX}.out.json");
                 }
             }
-        }
 
-        private void InOutCoheerence(ref List<Node> Nodes, ref List<Edge> Edges)
-        {
             foreach(var edge in Edges)
             {
-                var fromNode = GetNode(Nodes, edge.FromID);
-                var toNode = GetNode(Nodes, edge.ToID);
+                var index_from = Nodes.IndexOf(GetNode(Nodes, edge.FromID));
+                var index_to = Nodes.IndexOf(GetNode(Nodes, edge.ToID));
 
-                //The output File of the from-Node must be the input file of the to-Node
-                Nodes[Nodes.IndexOf(toNode)].InputFile = Nodes[Nodes.IndexOf(fromNode)].OutputFile;
+                string newOutputFile = DirectoryPath + Nodes[index_from].ID + "_" + Nodes[index_to].ID + ".in.json";
+
+                Nodes[index_from].OutputFiles.Add(newOutputFile);
+                Nodes[index_to].InputFiles.Add(newOutputFile);
 
             }
 
-
         }
+
+
 
         private Node GetNode(List<Node> Nodes, string ID)
         {

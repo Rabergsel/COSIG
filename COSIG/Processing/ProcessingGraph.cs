@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsoleTables;
 
 namespace COSIG.Processing
 {
@@ -23,7 +24,7 @@ namespace COSIG.Processing
         {
             if(node.ID == "")
             {
-                node.ID = node.GetType().ToString().Replace(" ", "_").ToLower() + "_" + _nodes.Count().ToString();
+                node.ID = node.Name.ToString().Replace(" ", "_").ToLower() + "_" + _nodes.Count().ToString();
             }
 
             _nodes.Add(node);
@@ -82,7 +83,7 @@ namespace COSIG.Processing
 
             List<Node> CurrentNodes = new List<Node>();
             CurrentNodes = FindEntryNodes();
-
+            ToTable();
             while(true)
             {
                 foreach(var n in CurrentNodes)
@@ -151,6 +152,26 @@ namespace COSIG.Processing
                 }
             }
             return children;
+        }
+
+        public void ToTable()
+        {
+            var table = new ConsoleTable("#", "ID", "Name", "Description", "Input", "Output");
+
+            int i = 0;
+            foreach(var node in _nodes)
+            {
+                var ins = "";
+                var o = "";
+                foreach(var inp in node.InputFiles) { ins += inp + " | "; }
+                foreach (var outp in node.OutputFiles) { o += outp + " | "; }
+
+                table.AddRow(i, node.ID, node.Name, node.Description, ins, o);
+                i++;
+            }
+
+            table.Write();
+
         }
 
     }

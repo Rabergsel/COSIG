@@ -18,12 +18,22 @@ namespace COSIG.Nodes.WWW
 
         public override void Load()
         {
-            HTMLPages = JsonSerializer.Deserialize<List<string>>(File.ReadAllText(InputFile));
+            HTMLPages.Clear();
+            CleanStrings.Clear();
+
+            foreach(var existingFile in ExistingInputFiles)
+            {
+                HTMLPages.AddRange(JsonSerializer.Deserialize<List<string>>(File.ReadAllText(existingFile))); 
+            }
+
         }
 
-        public override void Save()
+        public override void Save(string FilePath)
         {
-            File.WriteAllText(OutputFile, JsonSerializer.Serialize(CleanStrings, new JsonSerializerOptions() { WriteIndented = true}));
+
+                File.WriteAllText(FilePath, JsonSerializer.Serialize(CleanStrings, new JsonSerializerOptions() { WriteIndented = true }));
+            
+            
         }
 
 

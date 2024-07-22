@@ -5,15 +5,20 @@
         /// <summary>
         /// Where to get the Input Data from
         /// </summary>
-        public string InputFile { get; set; } = "";
+        public List<string> InputFiles { get; set; } = new List<string>();
 
         /// <summary>
         /// Where to write the output to
         /// </summary>
-        public string OutputFile { get; set; } = "";
+        public List<string> OutputFiles { get; set; } = new List<string>();
+
+        internal List<string> ExistingInputFiles { get; set; } = new List<string>();
+
 
         public Type InputType { get; internal set; } = typeof(object);
         public Type OutputType { get; internal set; } = typeof(object);
+
+        int run = 0;
 
 
         /// <summary>
@@ -52,27 +57,74 @@
         /// <summary>
         /// Saves all data to output file
         /// </summary>
-        public abstract void Save();
+        public abstract void Save(string FilePath);
+
+        internal void CheckInputFiles()
+        {
+            foreach (var f in InputFiles)
+            {
+                if (File.Exists(f)) ExistingInputFiles.Add(f);
+            }
+           
+        }
+
+        public virtual bool CheckForStart()
+        {
+            if(ExistingInputFiles.Count == 0) return false;
+            return true;
+        }
+
+        public virtual void TidyUp()
+        {
+            foreach (var f in InputFiles)
+            {
+                if (File.Exists(f)) File.Delete(f);
+            }
+            ExistingInputFiles.Clear();
+        }
+
 
         /// <summary>
         /// Runs the whole process of the node
         /// </summary>
        public void Run()
         {
+
+#if DEBUG
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Awaiting Node " + ID + "\tName = " + Name + "\tDescription = " + Description);
+            Console.ResetColor();
+#endif
+
+            while (true)
+            {
+                CheckInputFiles();
+                if (CheckForStart()) break;
+                Thread.Sleep(1000);
+            }
+
 #if DEBUG
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Starting Node " + ID + "\tName = " + Name + "\tDescription = " + Description);
             Console.ResetColor();
 #endif
+
             Load();
             Work();
-            Save();
+            foreach(var output in OutputFiles)
+            {
+                Save(output.Replace("{RUN_INDEX}", run.ToString()));
+            }
+
+            TidyUp();
 
 #if DEBUG
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Ending Node " + ID + "\tName = " + Name + "\tDescription = " + Description);
+            Console.WriteLine("Ending   Node " + ID + "\tName = " + Name + "\tDescription = " + Description);
             Console.ResetColor();
 #endif
+            run++;
+
 
         }
 
@@ -80,8 +132,8 @@
 
         public Node(string InputFile, string OutputFile)
         {
-            this.InputFile = InputFile;
-            this.OutputFile = OutputFile;
+            if(InputFile != "") InputFiles.Add(InputFile);
+            if (OutputFile != "") OutputFiles.Add(OutputFile);
         }
 
         internal Node(string inputFile, string outputFile, Type inputType, Type outputType, string iD, string name, string description) : this(inputFile, outputFile)
@@ -92,5 +144,7 @@
             Name = name;
             Description = description;
         }
+
+
     }
 }

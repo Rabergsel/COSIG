@@ -19,7 +19,7 @@ namespace COSIG.Nodes.Flow
 
         public override void Load()
         {
-            InputContent = File.ReadAllText(InputFile);
+            InputContent = File.ReadAllText(InputFiles[0]);
         }
 
         public override void Work()
@@ -28,9 +28,11 @@ namespace COSIG.Nodes.Flow
 
         }
 
-        public override void Save()
+        public override void Save(string FilePath)
         {
-            File.WriteAllText(OutputFile, InputContent);
+
+                File.WriteAllText(FilePath, InputContent);
+            
         }
 
 
