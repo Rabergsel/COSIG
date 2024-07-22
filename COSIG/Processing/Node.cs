@@ -60,14 +60,18 @@
        public void Run()
         {
 #if DEBUG
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Starting Node " + ID + "\tName = " + Name + "\tDescription = " + Description);
+            Console.ResetColor();
 #endif
             Load();
             Work();
             Save();
 
 #if DEBUG
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Ending Node " + ID + "\tName = " + Name + "\tDescription = " + Description);
+            Console.ResetColor();
 #endif
 
         }

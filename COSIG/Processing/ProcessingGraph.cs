@@ -47,7 +47,7 @@ namespace COSIG.Processing
             if (toNode == null) throw new KeyNotFoundException("Node " + edge.ToID + " was not found! (Edge.ToID)");
 
             //Check whether output and input are the same or not
-            if (fromNode.OutputType != toNode.InputType) throw new TypeLoadException("The types of the nodes are not compatible\nOutput Type: " + fromNode.OutputType.ToString() + "\nInput Type: " + toNode.OutputType.ToString());
+            //if (fromNode.OutputType != toNode.InputType) throw new TypeLoadException("The types of the nodes are not compatible\nOutput Type: " + fromNode.OutputType.ToString() + "\nInput Type: " + toNode.OutputType.ToString());
 
 
 
