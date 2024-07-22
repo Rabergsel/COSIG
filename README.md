@@ -5,7 +5,7 @@
 **Language:** C#
 
 ## Badges
-Wakatime: [![wakatime](https://wakatime.com/badge/github/Rabergsel/COSIG.svg)](https://wakatime.com/badge/github/Rabergsel/COSIG)
+[![wakatime](https://wakatime.com/badge/github/Rabergsel/COSIG.svg)](https://wakatime.com/badge/github/Rabergsel/COSIG)
 
 **Description:**
 COSIG is an innovative framework for creating and managing computational graphs. Unlike traditional computational graphs that focus on mathematical operators, COSIG's nodes represent discrete tasks that need to be executed. This makes COSIG more akin to a workflow designer than a mathematical tool.
