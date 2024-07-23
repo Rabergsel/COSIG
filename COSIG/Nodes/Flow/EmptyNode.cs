@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace COSIG.Nodes.Flow
+﻿namespace COSIG.Nodes.Flow
 {
     public class EmptyNode : Processing.Node
     {
@@ -26,12 +20,12 @@ namespace COSIG.Nodes.Flow
         public override void Save(string FilePath)
         {
 
-                File.WriteAllText(FilePath, File.ReadAllText(InputFiles[0]));
-            
+            File.WriteAllText(FilePath, File.ReadAllText(InputFiles[0]));
+
         }
         public override void TidyUp()
         {
-            
+
         }
     }
 }

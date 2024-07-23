@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using HtmlAgilityPack;
 using System.Text.Json;
-using System.Threading.Tasks;
-
-using HtmlAgilityPack;
 
 namespace COSIG.Nodes.WWW
 {
     public class HtmlLinkExtractorNode : Processing.Node
     {
-        List<string> Htmls = new List<string>();
-        List<string> Links = new List<string>();
+        private List<string> Htmls = new List<string>();
+        private List<string> Links = new List<string>();
 
         public HtmlLinkExtractorNode(string InputFile, string OutputFile) : base(InputFile, OutputFile, typeof(string[]), typeof(string[]), "", "HtmlLinkExtractor", "Extracts links from a HTML string") { }
 
@@ -21,7 +15,7 @@ namespace COSIG.Nodes.WWW
             Htmls.Clear();
             Links.Clear();
 
-            foreach(var file in ExistingInputFiles)
+            foreach (var file in ExistingInputFiles)
             {
                 Htmls.AddRange(JsonSerializer.Deserialize<List<string>>(File.ReadAllText(file)));
             }
@@ -29,7 +23,7 @@ namespace COSIG.Nodes.WWW
 
         public override void Work()
         {
-            foreach(var html in Htmls)
+            foreach (var html in Htmls)
             {
                 var doc = new HtmlDocument();
                 doc.LoadHtml(html);

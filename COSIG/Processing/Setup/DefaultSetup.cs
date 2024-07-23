@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace COSIG.Processing.Setup
+﻿namespace COSIG.Processing.Setup
 {
     public class DefaultSetup : SetupBase
     {
@@ -18,22 +11,22 @@ namespace COSIG.Processing.Setup
 
         private void CheckForDirectory()
         {
-            if(!Directory.Exists(DirectoryPath)) { Directory.CreateDirectory(DirectoryPath); }
+            if (!Directory.Exists(DirectoryPath)) { Directory.CreateDirectory(DirectoryPath); }
             if (!Directory.Exists(DirectoryPath + "out/")) { Directory.CreateDirectory(DirectoryPath + "out/"); }
         }
 
         private void SetUpFiles(ref List<Node> Nodes, ref List<Edge> Edges)
         {
 
-            foreach(var Node in Nodes)
+            foreach (var Node in Nodes)
             {
-                if(Node.OutputFiles.Count == 0)
+                if (Node.OutputFiles.Count == 0)
                 {
                     Node.OutputFiles.Add(DirectoryPath + "out/" + Node.ID + ".{RUN_INDEX}.out.json");
                 }
             }
 
-            foreach(var edge in Edges)
+            foreach (var edge in Edges)
             {
                 var index_from = Nodes.IndexOf(GetNode(Nodes, edge.FromID));
                 var index_to = Nodes.IndexOf(GetNode(Nodes, edge.ToID));

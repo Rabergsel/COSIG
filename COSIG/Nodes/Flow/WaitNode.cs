@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace COSIG.Nodes.Flow
+﻿namespace COSIG.Nodes.Flow
 {
     public class WaitNode : Processing.Node
     {
@@ -31,8 +24,8 @@ namespace COSIG.Nodes.Flow
         public override void Save(string FilePath)
         {
 
-                File.WriteAllText(FilePath, InputContent);
-            
+            File.WriteAllText(FilePath, InputContent);
+
         }
 
 

@@ -18,7 +18,7 @@
         public Type InputType { get; internal set; } = typeof(object);
         public Type OutputType { get; internal set; } = typeof(object);
 
-        int run = 0;
+        private int run = 0;
 
 
         /// <summary>
@@ -63,14 +63,21 @@
         {
             foreach (var f in InputFiles)
             {
-                if (File.Exists(f)) ExistingInputFiles.Add(f);
+                if (File.Exists(f))
+                {
+                    ExistingInputFiles.Add(f);
+                }
             }
-           
+
         }
 
         public virtual bool CheckForStart()
         {
-            if(ExistingInputFiles.Count == 0) return false;
+            if (ExistingInputFiles.Count == 0)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -78,7 +85,10 @@
         {
             foreach (var f in InputFiles)
             {
-                if (File.Exists(f)) File.Delete(f);
+                if (File.Exists(f))
+                {
+                    File.Delete(f);
+                }
             }
             ExistingInputFiles.Clear();
         }
@@ -87,7 +97,7 @@
         /// <summary>
         /// Runs the whole process of the node
         /// </summary>
-       public void Run()
+        public void Run()
         {
 
 #if DEBUG
@@ -99,7 +109,11 @@
             while (true)
             {
                 CheckInputFiles();
-                if (CheckForStart()) break;
+                if (CheckForStart())
+                {
+                    break;
+                }
+
                 Thread.Sleep(1000);
             }
 
@@ -111,7 +125,7 @@
 
             Load();
             Work();
-            foreach(var output in OutputFiles)
+            foreach (var output in OutputFiles)
             {
                 Save(output.Replace("{RUN_INDEX}", run.ToString()));
             }
@@ -132,8 +146,15 @@
 
         public Node(string InputFile, string OutputFile)
         {
-            if(InputFile != "") InputFiles.Add(InputFile);
-            if (OutputFile != "") OutputFiles.Add(OutputFile);
+            if (InputFile != "")
+            {
+                InputFiles.Add(InputFile);
+            }
+
+            if (OutputFile != "")
+            {
+                OutputFiles.Add(OutputFile);
+            }
         }
 
         internal Node(string inputFile, string outputFile, Type inputType, Type outputType, string iD, string name, string description) : this(inputFile, outputFile)

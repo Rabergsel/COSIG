@@ -1,10 +1,5 @@
-﻿using COSIG.Processing.Setup;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleTables;
+﻿using ConsoleTables;
+using COSIG.Processing.Setup;
 
 namespace COSIG.Processing
 {
@@ -22,7 +17,7 @@ namespace COSIG.Processing
         /// <returns>The ID of the Node when added</returns>
         public string AddNode(Node node)
         {
-            if(node.ID == "")
+            if (node.ID == "")
             {
                 node.ID = node.Name.ToString().Replace(" ", "_").ToLower() + "_" + _nodes.Count().ToString();
             }
@@ -44,8 +39,15 @@ namespace COSIG.Processing
             var toNode = GetNode(edge.ToID);
 
             //Check whether both _nodes are in Graph
-            if (fromNode == null) throw new KeyNotFoundException("Node " + edge.FromID + " was not found! (Edge.FromID)");
-            if (toNode == null) throw new KeyNotFoundException("Node " + edge.ToID + " was not found! (Edge.ToID)");
+            if (fromNode == null)
+            {
+                throw new KeyNotFoundException("Node " + edge.FromID + " was not found! (Edge.FromID)");
+            }
+
+            if (toNode == null)
+            {
+                throw new KeyNotFoundException("Node " + edge.ToID + " was not found! (Edge.ToID)");
+            }
 
             //Check whether output and input are the same or not
             //if (fromNode.OutputType != toNode.InputType) throw new TypeLoadException("The types of the nodes are not compatible\nOutput Type: " + fromNode.OutputType.ToString() + "\nInput Type: " + toNode.OutputType.ToString());
@@ -84,15 +86,18 @@ namespace COSIG.Processing
             List<Node> CurrentNodes = new List<Node>();
             CurrentNodes = FindEntryNodes();
             ToTable();
-            while(true)
+            while (true)
             {
-                foreach(var n in CurrentNodes)
+                foreach (var n in CurrentNodes)
                 {
                     n.Run();
                 }
 
                 CurrentNodes = GetAllChildrenNodes(CurrentNodes);
-                if(CurrentNodes.Count == 0) break;
+                if (CurrentNodes.Count == 0)
+                {
+                    break;
+                }
             }
 
         }
@@ -106,13 +111,13 @@ namespace COSIG.Processing
             Dictionary<string, int> EntryCounter = new Dictionary<string, int>();
 
             //Register all _nodes
-            foreach(var n in _nodes)
+            foreach (var n in _nodes)
             {
                 EntryCounter.Add(n.ID, 0);
             }
 
             //Count ToIDs
-            foreach(var e in _edges)
+            foreach (var e in _edges)
             {
                 //When adding edges the IDs are already checked
                 //The ID exists guaranteed
@@ -124,7 +129,7 @@ namespace COSIG.Processing
 
             //Find all nodes to the IDs
             List<Node> entrynodes = new List<Node>();
-            foreach(var  id in ids)
+            foreach (var id in ids)
             {
                 entrynodes.Add(GetNode(id));
             }
@@ -136,7 +141,7 @@ namespace COSIG.Processing
         {
             List<Node> children = new List<Node>();
 
-            foreach(var node in nodes) { children.AddRange(GetAllChildrenNodes(node)); }
+            foreach (var node in nodes) { children.AddRange(GetAllChildrenNodes(node)); }
 
             return children;
         }
@@ -144,9 +149,9 @@ namespace COSIG.Processing
         private List<Node> GetAllChildrenNodes(Node node)
         {
             List<Node> children = new List<Node>();
-            foreach(var e in _edges)
+            foreach (var e in _edges)
             {
-                if(e.FromID == node.ID)
+                if (e.FromID == node.ID)
                 {
                     children.Add(GetNode(e.ToID));
                 }
@@ -159,11 +164,11 @@ namespace COSIG.Processing
             var table = new ConsoleTable("#", "ID", "Name", "Description", "Input", "Output");
 
             int i = 0;
-            foreach(var node in _nodes)
+            foreach (var node in _nodes)
             {
                 var ins = "";
                 var o = "";
-                foreach(var inp in node.InputFiles) { ins += inp + " | "; }
+                foreach (var inp in node.InputFiles) { ins += inp + " | "; }
                 foreach (var outp in node.OutputFiles) { o += outp + " | "; }
 
                 table.AddRow(i, node.ID, node.Name, node.Description, ins, o);

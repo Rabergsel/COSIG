@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using COSIG.Processing;
 using System.Net;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-
-using COSIG.Processing;
 
 namespace COSIG.Nodes
 {
@@ -25,18 +18,22 @@ namespace COSIG.Nodes
         {
             URLs.Clear();
             Pages.Clear();
-            foreach(var file in ExistingInputFiles)
+            foreach (var file in ExistingInputFiles)
             {
                 URLs.AddRange(JsonSerializer.Deserialize<List<string>>(File.ReadAllText(file)));
             }
-            
+
         }
 
         public override void Work()
         {
-            foreach(var  url in URLs)
+            foreach (var url in URLs)
             {
-                if (url == null) continue;
+                if (url == null)
+                {
+                    continue;
+                }
+
                 using (WebClient client = new WebClient())
                 {
                     try
@@ -48,8 +45,8 @@ namespace COSIG.Nodes
                     {
                         Pages.Add("");
                     }
-                        ReportProgress();
-                   
+                    ReportProgress();
+
                 }
             }
         }
@@ -62,9 +59,9 @@ namespace COSIG.Nodes
         public override void Save(string FilePath)
         {
 
-                File.WriteAllText(FilePath, JsonSerializer.Serialize(Pages, new JsonSerializerOptions() { WriteIndented = true }));
-            
-           
+            File.WriteAllText(FilePath, JsonSerializer.Serialize(Pages, new JsonSerializerOptions() { WriteIndented = true }));
+
+
         }
 
 
