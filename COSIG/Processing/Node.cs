@@ -12,13 +12,27 @@
         /// </summary>
         public List<string> OutputFiles { get; set; } = new List<string>();
 
+        /// <summary>
+        /// Currently existing Input Files
+        /// </summary>
         internal List<string> ExistingInputFiles { get; set; } = new List<string>();
 
 
+        /// <summary>
+        /// The type for input
+        /// </summary>
         public Type InputType { get; internal set; } = typeof(object);
+
+        /// <summary>
+        /// The type for Output
+        /// </summary>
         public Type OutputType { get; internal set; } = typeof(object);
 
-        private int run = 0;
+
+        /// <summary>
+        /// Counter of how often this node has been executed
+        /// </summary>
+        private int RunCount = 0;
 
 
         /// <summary>
@@ -59,6 +73,9 @@
         /// </summary>
         public abstract void Save(string FilePath);
 
+        /// <summary>
+        /// Making a list of which Input Files are existing
+        /// </summary>
         internal void CheckInputFiles()
         {
             foreach (var f in InputFiles)
@@ -71,6 +88,10 @@
 
         }
 
+        /// <summary>
+        /// A virtual method to check whether this node should be executed or not
+        /// </summary>
+        /// <returns>True when execution should start</returns>
         public virtual bool CheckForStart()
         {
             if (ExistingInputFiles.Count == 0)
@@ -81,6 +102,9 @@
             return true;
         }
 
+        /// <summary>
+        /// Procedure to call after execution
+        /// </summary>
         public virtual void TidyUp()
         {
             foreach (var f in InputFiles)
@@ -127,7 +151,7 @@
             Work();
             foreach (var output in OutputFiles)
             {
-                Save(output.Replace("{RUN_INDEX}", run.ToString()));
+                Save(output.Replace("{RUN_INDEX}", RunCount.ToString()));
             }
 
             TidyUp();
@@ -137,13 +161,21 @@
             Console.WriteLine("Ending   Node " + ID + "\tName = " + Name + "\tDescription = " + Description);
             Console.ResetColor();
 #endif
-            run++;
+            RunCount++;
 
 
         }
 
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public Node() { }
 
+        /// <summary>
+        /// Constructor for users
+        /// </summary>
+        /// <param name="InputFile">The path to the input file</param>
+        /// <param name="OutputFile">The path to the output file</param>
         public Node(string InputFile, string OutputFile)
         {
             if (InputFile != "")
@@ -157,6 +189,16 @@
             }
         }
 
+        /// <summary>
+        /// Internal constructor for setting node specific settings
+        /// </summary>
+        /// <param name="inputFile">Path to input file</param>
+        /// <param name="outputFile">Path to output file</param>
+        /// <param name="inputType">The type for input</param>
+        /// <param name="outputType">The type for output</param>
+        /// <param name="iD">ID of node</param>
+        /// <param name="name">Name of node</param>
+        /// <param name="description">Description of Nodes work</param>
         internal Node(string inputFile, string outputFile, Type inputType, Type outputType, string iD, string name, string description) : this(inputFile, outputFile)
         {
             InputType = inputType;

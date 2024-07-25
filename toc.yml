@@ -1,4 +1,4 @@
-- name: Docs
-  href: C:\Users\raber_pt3paoe\source\repos\COSIG\docs/
-- name: API
-  href: api/
+- name: Introduction
+  href: introduction.md
+- name: Getting Started
+  href: getting-started.md

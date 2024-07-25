@@ -5,9 +5,19 @@ namespace COSIG.Processing
 {
     public class ProcessingGraph
     {
+        /// <summary>
+        /// List of all edges
+        /// </summary>
         internal List<Edge> _edges = new List<Edge>();
+
+        /// <summary>
+        /// List of all nodes
+        /// </summary>
         internal List<Node> _nodes = new List<Node>();
 
+        /// <summary>
+        /// The setup to run before execution
+        /// </summary>
         private SetupBase Setup = new DefaultSetup();
 
         /// <summary>
@@ -79,6 +89,9 @@ namespace COSIG.Processing
             AddEdge(edge);
         }
 
+        /// <summary>
+        /// Runs the computational graph
+        /// </summary>
         public void Run()
         {
             Setup.Setup(ref _nodes, ref _edges);
@@ -146,6 +159,11 @@ namespace COSIG.Processing
             return children;
         }
 
+        /// <summary>
+        /// Gets all children nodes of a node
+        /// </summary>
+        /// <param name="node">The node of which to find the children</param>
+        /// <returns>List of children nodes</returns>
         private List<Node> GetAllChildrenNodes(Node node)
         {
             List<Node> children = new List<Node>();
@@ -159,6 +177,9 @@ namespace COSIG.Processing
             return children;
         }
 
+        /// <summary>
+        /// Draws a table to the console
+        /// </summary>
         public void ToTable()
         {
             var table = new ConsoleTable("#", "ID", "Name", "Description", "Input", "Output");
