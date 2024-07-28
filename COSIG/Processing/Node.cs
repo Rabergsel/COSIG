@@ -18,6 +18,11 @@
         internal List<string> ExistingInputFiles { get; set; } = new List<string>();
 
 
+
+        public Dictionary<string, string> Configuration { get; set; } = new Dictionary<string, string>();
+
+        internal List<APIObject> APIObjects { get; set; } = new List<APIObject>();
+
         /// <summary>
         /// The type for input
         /// </summary>
@@ -58,6 +63,11 @@
             Console.WriteLine($"Node {ID} reports progress");
         }
 
+        public virtual void ReportProgress(string info)
+        {
+            Console.WriteLine($"Node {ID} reports progress: " + info);
+        }
+
         /// <summary>
         /// The function doing the actual work of the node
         /// </summary>
@@ -80,9 +90,10 @@
         {
             foreach (var f in InputFiles)
             {
-                if (File.Exists(f))
+                if (File.Exists(f) & !ExistingInputFiles.Contains(f))
                 {
                     ExistingInputFiles.Add(f);
+                    APIObjects.AddRange(System.Text.Json.JsonSerializer.Deserialize<List<APIObject>>(File.ReadAllText(f)));
                 }
             }
 
@@ -115,6 +126,7 @@
                 }
             }
             ExistingInputFiles.Clear();
+            APIObjects.Clear();
         }
 
 

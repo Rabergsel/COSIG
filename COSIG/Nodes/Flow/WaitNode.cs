@@ -1,33 +1,35 @@
-﻿namespace COSIG.Nodes.Flow
-{
-    public class WaitNode : Processing.Node
-    {
-        public string InputContent = "";
-        public int MillisecondsWait = 1000;
+﻿using COSIG.Processing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-        public WaitNode(string InputFile, string OutputFile, int WaitMS) : base(InputFile, OutputFile, typeof(string), typeof(string), "", "WaitNode", "Waits " + WaitMS + " ms")
+namespace COSIG.Nodes.Flow
+{
+    public class WaitNode : Node
+    {
+
+        public WaitNode(string InputFile, string OutputFile, int MillisecondsWait) :
+            base(InputFile, OutputFile, typeof(object[]), typeof(object[]), "", "WaitNode", "Waits for " + MillisecondsWait + " milliseconds")
         {
-            MillisecondsWait = WaitMS;
+            Configuration.Add("ms", MillisecondsWait.ToString());
         }
 
         public override void Load()
         {
-            InputContent = File.ReadAllText(InputFiles[0]);
+            
         }
 
         public override void Work()
         {
-            Thread.Sleep(MillisecondsWait);
-
+            Thread.Sleep(int.Parse(Configuration["ms"]));
         }
 
         public override void Save(string FilePath)
         {
-
-            File.WriteAllText(FilePath, InputContent);
-
+            File.WriteAllText(FilePath, System.Text.Json.JsonSerializer.Serialize(APIObjects));
         }
-
 
     }
 }
