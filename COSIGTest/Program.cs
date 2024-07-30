@@ -20,7 +20,7 @@ string id1_1 = graph.AddNode(new HTMLLinkExtractorNode("", ""));
 
 graph.AddEdge(new(id0, id1));
 graph.AddEdge(new(id1, id2));
-graph.AddEdge(new(id1, id1_1));
+graph.AddEdge(new(id1, id1_1, 2));
 graph.AddEdge(new(id1_1, id1));
 
 graph.Run();
