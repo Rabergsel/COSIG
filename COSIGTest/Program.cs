@@ -15,8 +15,13 @@ ProcessingGraph graph = new ProcessingGraph();
 
 string id0 = graph.AddNode(new EmptyNode("in.json", ""));
 string id1 = graph.AddNode(new HTMLDownloaderNode("", ""));
+string id2 = graph.AddNode(new HTMLRemoverNode("", ""));
+string id1_1 = graph.AddNode(new HTMLLinkExtractorNode("", ""));
 
 graph.AddEdge(new(id0, id1));
+graph.AddEdge(new(id1, id2));
+graph.AddEdge(new(id1, id1_1));
+graph.AddEdge(new(id1_1, id1));
 
 graph.Run();
 

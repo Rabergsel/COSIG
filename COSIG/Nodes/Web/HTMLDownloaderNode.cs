@@ -32,12 +32,17 @@ namespace COSIG.Nodes.Web
                 if (!item.IsType(typeof(string))) throw new FormatException("Expected string, not " + item.type.ToString());
                 Console.WriteLine(item.data.ToString());
                 string url = item.data.ToString();
+                try
+                {
+                    var htmldoc = web.Load(url);
 
-                var htmldoc = web.Load(url);
+                    Tuple<string, string> htmldata = new Tuple<string, string>(url, htmldoc.DocumentNode.OuterHtml);
+                    Pages.Add(new(htmldata));
+                }
+                catch
+                {
 
-                Tuple<string, string> htmldata = new Tuple<string, string>(url, htmldoc.DocumentNode.OuterHtml);
-                Pages.Add(new(htmldata));
-
+                }
                 ReportProgress("Downloaded " + Pages.Count + "/" + APIObjects.Count + "\t" + url);
 
             }
