@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace COSIG.Nodes.Web
 {
+    /// <summary>
+    /// A Node that will remove all HTML Tags
+    /// </summary>
     public class HTMLRemoverNode : Node
     {
 

@@ -150,6 +150,11 @@ namespace COSIG.Processing
             return entrynodes;
         }
 
+        /// <summary>
+        /// Gets all children nodes of several node
+        /// </summary>
+        /// <param name="nodes">The node of which to find the children</param>
+        /// <returns>List of children nodes</returns>
         private List<Node> GetAllChildrenNodes(IEnumerable<Node> nodes)
         {
             List<Node> children = new List<Node>();
