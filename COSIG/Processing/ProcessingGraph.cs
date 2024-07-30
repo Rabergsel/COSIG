@@ -174,7 +174,11 @@ namespace COSIG.Processing
             List<Node> children = new List<Node>();
             foreach (var e in _edges)
             {
-                if (!e.IsEdgeExisting()) continue;
+                if (!e.IsEdgeExisting())
+                {
+                    continue;
+                }
+
                 if (e.FromID == node.ID)
                 {
                     e.UseEdge();

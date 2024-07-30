@@ -1,5 +1,4 @@
 ﻿using COSIG;
-using COSIG.Nodes;
 using COSIG.Nodes.Flow;
 using COSIG.Nodes.Web;
 using COSIG.Processing;

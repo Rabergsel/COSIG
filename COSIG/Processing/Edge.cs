@@ -1,6 +1,4 @@
-﻿using COSIG.Nodes.Web;
-
-namespace COSIG.Processing
+﻿namespace COSIG.Processing
 {
     /// <summary>
     /// Represents a connection between two nodes
@@ -15,8 +13,16 @@ namespace COSIG.Processing
         private int CurrentUses = 0;
         public bool IsEdgeExisting()
         {
-            if (MaxUses == -1) return true;
-            if(CurrentUses <= MaxUses) return true;
+            if (MaxUses == -1)
+            {
+                return true;
+            }
+
+            if (CurrentUses <= MaxUses)
+            {
+                return true;
+            }
+
             return false;
         }
         public void UseEdge()

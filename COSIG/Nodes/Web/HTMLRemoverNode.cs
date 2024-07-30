@@ -1,11 +1,6 @@
 ﻿using COSIG.Processing;
 using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace COSIG.Nodes.Web
 {
@@ -20,7 +15,7 @@ namespace COSIG.Nodes.Web
 
         }
 
-        List<APIObject> CleanPages = new List<APIObject>();
+        private List<APIObject> CleanPages = new List<APIObject>();
 
         public override void Load()
         {
@@ -30,9 +25,12 @@ namespace COSIG.Nodes.Web
 
         public override void Work()
         {
-            foreach(var p in APIObjects) 
+            foreach (var p in APIObjects)
             {
-                if (!p.IsType(typeof(Tuple<string, string>))) throw new FormatException("Expected type <string, string>, got " + p.type + " instead");
+                if (!p.IsType(typeof(Tuple<string, string>)))
+                {
+                    throw new FormatException("Expected type <string, string>, got " + p.type + " instead");
+                }
 
                 var tuple = JsonSerializer.Deserialize<Tuple<string, string>>(p.data.ToString());
 

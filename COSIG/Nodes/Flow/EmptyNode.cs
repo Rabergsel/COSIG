@@ -1,9 +1,4 @@
 ﻿using COSIG.Processing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace COSIG.Nodes.Flow
 {
@@ -17,11 +12,11 @@ namespace COSIG.Nodes.Flow
 
         public override void Load()
         {
-            
+
         }
         public override void Work()
         {
-            
+
         }
 
         public override void Save(string FilePath)

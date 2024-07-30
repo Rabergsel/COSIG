@@ -1,18 +1,12 @@
 ﻿using COSIG.Processing;
 using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace COSIG.Nodes.Web
 {
     public class HTMLLinkExtractorNode : Node
     {
-        List<APIObject> Links = new List<APIObject>();
+        private List<APIObject> Links = new List<APIObject>();
 
         public HTMLLinkExtractorNode(string InputFile, string OutputFile) : base(InputFile, OutputFile, typeof(string), typeof(string), "", "HtmlLinkExtractor", "Returns a list of all links in a HTML File")
         {
@@ -27,10 +21,14 @@ namespace COSIG.Nodes.Web
 
         public override void Work()
         {
-            foreach(var o in APIObjects)
+            foreach (var o in APIObjects)
             {
-                if (!o.IsType(typeof(string)) & !o.IsType(typeof(Tuple<string, string>))) throw new FormatException("Expected string or Tuple<string, string>, but got " + o.type + " instead");
-                if(o.IsType(typeof(string)))
+                if (!o.IsType(typeof(string)) & !o.IsType(typeof(Tuple<string, string>)))
+                {
+                    throw new FormatException("Expected string or Tuple<string, string>, but got " + o.type + " instead");
+                }
+
+                if (o.IsType(typeof(string)))
                 {
                     HtmlDocument doc = new HtmlDocument();
                     doc.LoadHtml(o.data.ToString());
@@ -38,15 +36,15 @@ namespace COSIG.Nodes.Web
                                   .Select(a => a.GetAttributeValue("href", null))
                                   .Where(u => !String.IsNullOrEmpty(u));
 
-                    foreach(string link in linkedPages)
+                    foreach (string link in linkedPages)
                     {
                         Links.Add(new(link));
                     }
                 }
-                if(o.IsType(typeof(Tuple<string, string>)))
+                if (o.IsType(typeof(Tuple<string, string>)))
                 {
                     HtmlDocument doc = new HtmlDocument();
-                    doc.LoadHtml( JsonSerializer.Deserialize<Tuple<string, string>>(o.data.ToString()).Item2);
+                    doc.LoadHtml(JsonSerializer.Deserialize<Tuple<string, string>>(o.data.ToString()).Item2);
                     var linkedPages = doc.DocumentNode.Descendants("a")
                                   .Select(a => a.GetAttributeValue("href", null))
                                   .Where(u => !String.IsNullOrEmpty(u));
