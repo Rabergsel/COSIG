@@ -1,0 +1,22 @@
+﻿@page
+
+<table width="100%">
+
+    <tr>
+        <td>Node Type</td>
+        <td>Node Description</td>
+        <td>Node ID</td>
+    </tr>
+
+    @{
+        foreach(var n in Globals.Graph.Nodes)
+        {
+            <tr>
+                <td>@n.Name</td>
+                <td>@n.Description</td>
+                <td>@n.ID</td>
+            </tr>
+        }
+    }
+
+</table>

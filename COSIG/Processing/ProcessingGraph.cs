@@ -20,6 +20,22 @@ namespace COSIG.Processing
         /// </summary>
         private SetupBase Setup = new DefaultSetup();
 
+        public List<Node> Nodes
+        {
+            get
+            {
+                return _nodes;
+            }
+        }
+
+        public List<Edge> Edges
+        {
+            get
+            {
+                return _edges;
+            }
+        }
+
         /// <summary>
         /// Adds a node to the graph
         /// </summary>

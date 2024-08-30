@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COSIG", "COSIG\COSIG.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "COSIGTest", "COSIGTest\COSIGTest.csproj", "{2D267388-5B2A-412F-9653-0F198F5B330A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "COSIGDash", "COSIGDash\COSIGDash.csproj", "{7A6B0E97-1079-4CFC-BDD7-62E179C80567}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2D267388-5B2A-412F-9653-0F198F5B330A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D267388-5B2A-412F-9653-0F198F5B330A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D267388-5B2A-412F-9653-0F198F5B330A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A6B0E97-1079-4CFC-BDD7-62E179C80567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A6B0E97-1079-4CFC-BDD7-62E179C80567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A6B0E97-1079-4CFC-BDD7-62E179C80567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A6B0E97-1079-4CFC-BDD7-62E179C80567}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
