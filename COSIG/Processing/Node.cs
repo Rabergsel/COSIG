@@ -63,9 +63,9 @@
             Console.WriteLine($"Node {ID} reports progress");
         }
 
-        public virtual void ReportProgress(string info)
+        public void ReportProgress(string info)
         {
-            Console.WriteLine($"Node {ID} reports progress: " + info);
+            Console.WriteLine($"[{ID}]:\t" + info);
         }
 
         /// <summary>

@@ -53,7 +53,10 @@ namespace COSIG.Nodes.Web
                 try
                 {
                     var htmldoc = web.Load(url);
-
+                    if(htmldoc.DocumentNode.OuterHtml == null)
+                    {
+                        throw new Exception();
+                    }
                     Tuple<string, string> htmldata = new Tuple<string, string>(url, htmldoc.DocumentNode.OuterHtml);
                     Pages.Add(new(htmldata));
                     bytes += htmldata.Item2.Length;
@@ -73,10 +76,6 @@ namespace COSIG.Nodes.Web
             File.WriteAllText(FilePath, System.Text.Json.JsonSerializer.Serialize(Pages));
         }
 
-        public override void ReportProgress(string Info)
-        {
-            Console.WriteLine(Info);
-        }
 
 
     }
